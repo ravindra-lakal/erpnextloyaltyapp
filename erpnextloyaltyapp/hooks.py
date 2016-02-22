@@ -110,4 +110,4 @@ app_license = "MIT"
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "erpnextloyaltyapp.event.get_events"
 # }
-
+fixtures=['Custom Script','Property Setter','Custom Field']
