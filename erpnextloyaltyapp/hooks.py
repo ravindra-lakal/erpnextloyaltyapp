@@ -70,13 +70,14 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Customer": {
+        "autoname":"erpnextloyaltyapp.custom.customer.autoname",
+		# "on_update": "method",
+		# "on_cancel": "method",
+		# "on_trash": "method"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -110,4 +111,4 @@ app_license = "MIT"
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "erpnextloyaltyapp.event.get_events"
 # }
-
+fixtures=['Custom Script','Property Setter','Custom Field']
