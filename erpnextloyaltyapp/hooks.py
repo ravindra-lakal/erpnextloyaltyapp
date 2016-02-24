@@ -78,7 +78,7 @@ doc_events = {
 		# "on_trash": "method"
 	},
 	"Sales Order": {
-        "on_submit":"erpnextloyaltyapp.custom.sales_order.points_allocation",
+        "before_submit":"erpnextloyaltyapp.custom.sales_order.points_allocation",
 		# "on_update": "method",
 		# "on_cancel": "method",
 		# "on_trash": "method"
