@@ -1018,24 +1018,7 @@
   "property": "read_only_onload", 
   "property_type": "Check", 
   "value": null
- }, 
- {
-  "_assign": null, 
-  "_comments": null, 
-  "_liked_by": null, 
-  "_user_tags": null, 
-  "default_value": null, 
-  "doc_type": "Customer", 
-  "docstatus": 0, 
-  "doctype": "Property Setter", 
-  "doctype_or_field": "DocType", 
-  "field_name": null, 
-  "modified": "2016-02-22 17:50:13.993523", 
-  "name": "Customer-search_fields", 
-  "property": "search_fields", 
-  "property_type": "Data", 
-  "value": "mobile_no"
- }, 
+ },
  {
   "_assign": null, 
   "_comments": null, 
