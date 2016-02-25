@@ -73,6 +73,7 @@ app_license = "MIT"
 doc_events = {
 	"Customer": {
         "autoname":"erpnextloyaltyapp.custom.customer.autoname",
+		"validate":"erpnextloyaltyapp.custom.customer.validate"
 		# "on_update": "method",
 		# "on_cancel": "method",
 		# "on_trash": "method"
