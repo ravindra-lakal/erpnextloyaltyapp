@@ -12,15 +12,12 @@ def validate(doc,method):
     points_earned=0
     points_consumed=0
     total_points=0
-    if  doc.get("points_details"):
-        for raw in doc.get("points_details"):
+    if  doc.get("points_table"):
+        for raw in doc.get("points_table"):
             if raw.points_earned:
                 points_earned+=int(raw.points_earned)
             else:
                 raw.points_earned=0
-
-
-
             points_consumed+=int(raw.points_consumed)
         doc.total_points=points_earned - points_consumed
         #self.pos_customer_id=self.name
