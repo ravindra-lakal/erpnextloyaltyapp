@@ -1,5 +1,7 @@
 import frappe
+from frappe import _
 def points_allocation(doc,method):
+    pointscheck(doc)
     a=frappe.get_all("Rule Engine", fields=["rule_type","minimum_amount","points ","points_multiplication_factor"], filters={"status":"Active","docstatus":1})
     # docstatus is 1 when document is submitted
     for i in a:
@@ -35,3 +37,15 @@ def on_submit(doc,method):
         n1.points_consumed=checkmethod(doc)
 
     customer.save()
+
+def pointscheck(doc):
+		customer=frappe.get_doc("Customer",doc.customer_mobile_no)
+		tpoint=customer.total_points
+		#frappe.errprint(tpoint)
+		for raw in doc.get("payment_method"):
+			if raw.method=="Points":
+				# frappe.errprint(tpoint)
+				if int(raw.points) > int(tpoint):
+					#frappe.errprint("#####True######")
+
+					frappe.throw(_("Customer doesn't have enough points for redumption."))
