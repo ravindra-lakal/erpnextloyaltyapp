@@ -43,9 +43,9 @@ def otp(number,docname):
     size=6
     chars=string.ascii_uppercase + string.digits + string.ascii_lowercase
     code=''.join(random.choice(chars) for _ in range(size))
-    frappe.errprint(docname)
-    # docname.save()
-    # frappe.db.set_value("Sales Order",docname,"otp",code)
+	frappe.errprint(docname)
+    docname.save()
+    frappe.db.set_value("Sales Order",docname,"otp",code)
     text="Your otp is %s"%code
     a=[]
     a.append(number)

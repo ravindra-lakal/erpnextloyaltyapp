@@ -49,3 +49,16 @@ def pointscheck(doc):
 					#frappe.errprint("#####True######")
 
 					frappe.throw(_("Customer doesn't have enough points for redumption."))
+
+def on_update(doc,method):
+    if doc.get("payment_method"):
+        for raw in doc.get("payment_method"):
+            if raw.method=="Points":
+                if raw.otp==None and raw.points==None:
+                    frappe.throw(_("You have not entered otp and points "))
+                if raw.otp==None:
+                    frappe.throw(_("You have not entered otp"))
+                if raw.points==None:
+                    frappe.throw(_("You have not entered points "))
+                if raw.otp!=doc.otp:
+                        frappe.throw(_("Please enter correct otp "))

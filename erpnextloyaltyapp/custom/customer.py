@@ -1,5 +1,6 @@
 from frappe.model.naming import make_autoname
 def autoname(doc,method):
+    doc.naming_series="CUST-"
     doc.name = make_autoname(doc.naming_series+'.#####')
     doc.customer_id=doc.name
 def validate(doc,method):
