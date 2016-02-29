@@ -80,8 +80,8 @@ doc_events = {
 	},
 	"Sales Order": {
         "before_submit":"erpnextloyaltyapp.custom.sales_order.points_allocation",
-		"on_submit":"erpnextloyaltyapp.custom.sales_order.on_submit"
-		# "on_update": "method",
+		"on_submit":"erpnextloyaltyapp.custom.sales_order.on_submit",
+		"on_update":"erpnextloyaltyapp.custom.sales_order.on_update" ,
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	}
