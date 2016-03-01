@@ -2,7 +2,8 @@ import frappe
 from frappe import _
 def points_allocation(doc,method):
     pointscheck(doc)
-    a=frappe.get_all("Rule Engine", fields=["rule_type","minimum_amount","points ","points_multiplication_factor"], filters={"status":"Active","docstatus":1})
+
+    a=frappe.get_all("Rule Engine", fields=["rule_type","minimum_amount","points ","points_multiplication_factor","converted_rupees"], filters={"status":"Active","docstatus":1})
     # docstatus is 1 when document is submitted
     for i in a:
         if i.get('rule_type')=="Loyalty Points":
@@ -14,8 +15,13 @@ def points_allocation(doc,method):
             points=(amount*pointsawarded)/minamount
             a=factor*points
             doc.amount=amount
-            doc.points_earned=a
+            if payment_check(doc):
+                doc.points_earned=a
+            else:
+                frappe.throw(_("Payment incomplete please complete the payment"))
             doc.doc_no=doc.name
+            rupees=int(i.get('converted_rupees'))
+
 def checkmethod(doc):
 		l1=[]
 		for raw in doc.get("payment_method"):
@@ -62,3 +68,12 @@ def on_update(doc,method):
                     frappe.throw(_("You have not entered points "))
                 if raw.otp!=doc.otp:
                         frappe.throw(_("Please enter correct otp "))
+def payment_check(doc):
+    total=0
+    for raw in doc.get("payment_method"):
+        if raw.method=="COD" or raw.method=="CC":
+            total+=int(raw.amount)
+        else:
+            total+=int(raw.points)
+    if total< doc.grand_total:
+        return None
