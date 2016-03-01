@@ -51,3 +51,9 @@ def otp(number,docname):
     a.append(number)
     send_sms(a,text)
     return code
+@frappe.whitelist()
+def points(customer):
+	cust=frappe.get_doc("Customer",customer)
+	total=cust.total_points
+	print "Total is",total
+	return total
