@@ -15,10 +15,11 @@ def points_allocation(doc,method):
             points=(amount*pointsawarded)/minamount
             a=factor*points
             doc.amount=amount
-            if payment_check(doc):
+            if payment_check(doc)!=0:
                 doc.points_earned=a
             else:
                 frappe.throw(_("Payment incomplete please complete the payment"))
+                doc.points_earned=0
             doc.doc_no=doc.name
             rupees=int(i.get('converted_rupees'))
 
@@ -70,10 +71,11 @@ def on_update(doc,method):
                         frappe.throw(_("Please enter correct otp "))
 def payment_check(doc):
     total=0
+    print ("Grand total is",doc.grand_total)
     for raw in doc.get("payment_method"):
         if raw.method=="COD" or raw.method=="CC":
-            total+=int(raw.amount)
+            total+=float(raw.amount)
         else:
-            total+=int(raw.points)
+            total+=float(raw.points)
     if total< doc.grand_total:
-        return None
+        return 0
