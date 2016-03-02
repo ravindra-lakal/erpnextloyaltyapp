@@ -18,6 +18,7 @@ def points_allocation(doc,method):
             a=factor*points
             doc.points_earned=a
             doc.amount=amount
+            # order stops if payment is incomplete
             # if payment_check(doc)!=0:
             #     doc.points_earned=a
             # else:
@@ -92,4 +93,5 @@ def redeemamount(doc):
         return total
         if raw.method=="Points":
             return 0
+def mobilenocheck(doc):
 
