@@ -93,5 +93,5 @@ def redeemamount(doc):
         return total
         if raw.method=="Points":
             return 0
-def mobilenocheck(doc):
+# def mobilenocheck(doc):
 

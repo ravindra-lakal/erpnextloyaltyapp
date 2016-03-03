@@ -2,10 +2,19 @@
  {
   "docstatus": 0, 
   "doctype": "Custom Script", 
+  "dt": "User", 
+  "modified": "2016-02-26 15:13:48.055686", 
+  "name": "User-Client", 
+  "script": "cur_frm.add_fetch(\"store\",\"name1\",\"store_name\")", 
+  "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
   "dt": "Sales Order", 
-  "modified": "2016-02-24 15:49:16.752542", 
+  "modified": "2016-03-03 19:08:34.564133", 
   "name": "Sales Order-Client", 
-  "script": "cur_frm.fields_dict.customer_mobile_no.get_query=function(doc) {\nconsole.log (\"Hi\")\n\treturn{\tquery:\"erpnextloyaltyapp.api.customer_query\"}\n}\n\nfrappe.ui.form.on(\"Sales Order \", \"onload\", function(frm) {\nfrm.set_value(\"transaction_date\",frappe.datetime.now_datetime())\n   \n  });", 
+  "script": "cur_frm.fields_dict.customer_mobile_no.get_query=function(doc) {\n\n\treturn{\tquery:\"erpnextloyaltyapp.api.customer_query\"}\n}\nfrappe.ui.form.on(\"Sales Order\",\"onload\",function(frm) {\n\ncur_frm.set_value(\"transaction_date\",frappe.datetime.now_datetime())\ncur_frm.set_value(\"delivery_date\",frappe.datetime.now_datetime())\ncur_frm.set_value(\"cashier\",frappe.user.name)\n   \n  });\nfrappe.ui.form.on(\"Payment Method\", \"generate_otp\", function(frm,cdt,cdn) {\n//gets the customerid and username from server side\nreturn frappe.call({\n  method:\"erpnextloyaltyapp.api.otp\",\n  args:{number:frm.doc.mobile_no,\n\n  },\n  callback:function(r)\n  {\n    cur_frm.set_value(\"otp\",r.message)\n  },\n})\n\n });", 
   "script_type": "Client"
  }
 ]
