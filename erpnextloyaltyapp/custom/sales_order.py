@@ -11,17 +11,21 @@ def points_allocation(doc,method):
             minamount=int(i.get('minimum_amount'))
             pointsawarded=int(i.get('points'))
             factor=int(i.get('points_multiplication_factor'))
-            amount=int(doc.total)
+            # wrong amount calculation
+            # amount=int(doc.total)
+            amount=redeemamount(doc)
             points=(amount*pointsawarded)/minamount
             a=factor*points
+            doc.points_earned=a
             doc.amount=amount
-            if payment_check(doc)!=0:
-                doc.points_earned=a
-            else:
-                frappe.throw(_("Payment incomplete please complete the payment"))
-                doc.points_earned=0
-            doc.doc_no=doc.name
-            rupees=int(i.get('converted_rupees'))
+            # order stops if payment is incomplete
+            # if payment_check(doc)!=0:
+            #     doc.points_earned=a
+            # else:
+            #     frappe.throw(_("Payment incomplete please complete the payment"))
+            #     doc.points_earned=0
+            # doc.doc_no=doc.name
+            # rupees=int(i.get('converted_rupees'))
 
 def checkmethod(doc):
 		l1=[]
@@ -79,3 +83,15 @@ def payment_check(doc):
             total+=float(raw.points)
     if total< doc.grand_total:
         return 0
+
+def redeemamount(doc):
+    #Returns redeem amount i.e amount payed by COD and CC
+    total=0
+    for raw in doc.get("payment_method"):
+        if raw.method=="COD" or raw.method=="CC":
+            total+=float(raw.amount)
+        return total
+        if raw.method=="Points":
+            return 0
+# def mobilenocheck(doc):
+

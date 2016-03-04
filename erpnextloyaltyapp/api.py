@@ -39,11 +39,11 @@ def customer_query(doctype, txt, searchfield, start, page_len, filters):
 		},debug=True)
 
 @frappe.whitelist()
-def otp(number,docname):
+def otp(number):
     size=6
     chars=string.ascii_uppercase + string.digits + string.ascii_lowercase
     code=''.join(random.choice(chars) for _ in range(size))
-    frappe.errprint(docname)
+    # frappe.errprint(docname)
     # docname.save()
     # frappe.db.set_value("Sales Order",docname,"otp",code)
     text="Your otp is %s"%code
