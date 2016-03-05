@@ -39,7 +39,7 @@ def customer_query(doctype, txt, searchfield, start, page_len, filters):
 		},debug=True)
 
 @frappe.whitelist()
-def otp(number):
+def otp(number,customer):
     size=6
     chars=string.ascii_uppercase + string.digits + string.ascii_lowercase
     code=''.join(random.choice(chars) for _ in range(size))
@@ -50,7 +50,11 @@ def otp(number):
     a=[]
     a.append(number)
     send_sms(a,text)
-    return code
+    # docname=frappe.get_doc("Customer",customer)
+    frappe.db.set_value("Customer",customer,"otp",code)
+    # docname.save()
+    print code
+      
 @frappe.whitelist()
 def points(customer):
 	cust=frappe.get_doc("Customer",customer)

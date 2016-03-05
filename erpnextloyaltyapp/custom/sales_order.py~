@@ -32,7 +32,7 @@ def check_method(doc):
 		for raw in doc.get("payment_method"):
 			l1.append(raw.method)
 		if "Points" in l1:
-            		print raw.points
+            print raw.points
 
 			return int(raw.points)
 		else:
@@ -101,4 +101,4 @@ def redeem_amount(doc):
 def change_otp(doc):
     cust=frappe.get_doc("Customer",doc.customer_mobile_no)
     cust.otp=None
-    # cust.save()
+    cust.save()
