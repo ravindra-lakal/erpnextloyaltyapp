@@ -7,7 +7,7 @@
  "custom": 0, 
  "docstatus": 0, 
  "doctype": "DocType", 
- "document_type": "", 
+ "document_type": "Document", 
  "fields": [
   {
    "allow_on_submit": 0, 
@@ -426,7 +426,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2016-02-26 14:42:06.239649", 
+ "modified": "2016-03-04 18:22:33.384039", 
  "modified_by": "Administrator", 
  "module": "Erpnextloyaltyapp", 
  "name": "Store", 
