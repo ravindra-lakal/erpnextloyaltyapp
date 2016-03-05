@@ -52,12 +52,10 @@ def on_submit(doc,method):
 def pointscheck(doc):
 		customer=frappe.get_doc("Customer",doc.customer_mobile_no)
 		tpoint=customer.total_points
-		#frappe.errprint(tpoint)
 		for raw in doc.get("payment_method"):
 			if raw.method=="Points":
-				# frappe.errprint(tpoint)
 				if int(raw.points) > int(tpoint):
-					#frappe.errprint("#####True######")
+					
 
 					frappe.throw(_("Customer doesn't have enough points for redumption."))
 
