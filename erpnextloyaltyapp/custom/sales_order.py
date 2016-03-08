@@ -48,7 +48,8 @@ def on_submit(doc,method):
         n1.points_consumed=0
     else:
         n1.points_consumed=check_method(doc)
-    change_otp(doc)
+    customer.otp=None
+    print "OTP is",customer.otp 
     customer.save()
 
 def points_check(doc):

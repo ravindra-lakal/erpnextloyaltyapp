@@ -53,7 +53,7 @@ def otp(number,customer):
     # docname=frappe.get_doc("Customer",customer)
     frappe.db.set_value("Customer",customer,"otp",code)
     # docname.save()
-    print code
+    return code
       
 @frappe.whitelist()
 def points(customer):
