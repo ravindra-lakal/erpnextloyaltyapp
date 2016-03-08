@@ -49,7 +49,7 @@ def on_submit(doc,method):
     else:
         n1.points_consumed=check_method(doc)
     customer.otp=None
-    print "OTP is",customer.otp 
+    # print "OTP is",customer.otp 
     customer.save()
 
 def points_check(doc):
@@ -77,7 +77,6 @@ def on_update(doc,method):
                 cust=frappe.get_doc("Customer",doc.customer_mobile_no)
                 if raw.otp!=cust.otp:
                     frappe.throw(_("Please enter correct otp "))
-
 def payment_check(doc):
     total=0
     print ("Grand total is",doc.grand_total)
@@ -89,6 +88,7 @@ def payment_check(doc):
     if total< doc.grand_total:
         return 0
 
+
 def redeem_amount(doc):
     #Returns redeem amount i.e amount payed by COD and CC
     total=0
@@ -99,7 +99,4 @@ def redeem_amount(doc):
         if raw.method=="Points":
             return 0
 # def mobilenocheck(doc):
-def change_otp(doc):
-    cust=frappe.get_doc("Customer",doc.customer_mobile_no)
-    cust.otp=None
-    # cust.save()
+

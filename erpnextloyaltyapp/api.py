@@ -6,7 +6,7 @@ from frappe.utils import nowdate
 import string
 import random
 from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
-
+import datetime
 
 frappe.whitelist()
 def customer_query(doctype, txt, searchfield, start, page_len, filters):
@@ -52,6 +52,8 @@ def otp(number,customer):
     send_sms(a,text)
     # docname=frappe.get_doc("Customer",customer)
     frappe.db.set_value("Customer",customer,"otp",code)
+    frappe.db.set_value("Customer",customer,"date",datetime.datetime.now())
+
     # docname.save()
     return code
       

@@ -1,12 +1,16 @@
 import frappe
 from frappe.model.naming import make_autoname
+import datetime 
 from frappe import _
 def autoname(doc,method):
     doc.naming_series="CUST-"
     doc.name = make_autoname(doc.naming_series+'.#####')
     doc.customer_id=doc.name
 def validate(doc,method):
+    
+
     # checks if the mobile number is unique if email and mobile number are same then it allows to save the customer
+    doc.date=datetime.datetime.now()
     mobile_no=frappe.db.get_value("Customer",{"mobile_no":doc.mobile_no},"mobile_no")
     customer_id=frappe.db.get_value("Customer",{"mobile_no":doc.mobile_no},"customer_id")
     if mobile_no==doc.mobile_no and customer_id!=doc.customer_id:
