@@ -58,7 +58,11 @@ def get_data():
 					"name": "Rule Engine",
 					"description": _("Default settings for selling transactions.")
 				},
-				
+				{
+					"type": "doctype",
+					"name": "SMS Settings",
+					"description": _("Default settings for selling transactions.")
+				},
 			]
 		},
 		]
