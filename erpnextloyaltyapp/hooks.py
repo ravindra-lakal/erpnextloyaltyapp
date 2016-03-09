@@ -90,10 +90,10 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"erpnextloyaltyapp.tasks.all"
-# 	],
+scheduler_events = {
+	"all": [
+		"erpnextloyaltyapp.tasks.all"
+	],
 # 	"daily": [
 # 		"erpnextloyaltyapp.tasks.daily"
 # 	],
@@ -106,7 +106,7 @@ doc_events = {
 # 	"monthly": [
 # 		"erpnextloyaltyapp.tasks.monthly"
 # 	]
-# }
+}
 
 # Testing
 # -------
@@ -119,4 +119,5 @@ doc_events = {
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "erpnextloyaltyapp.event.get_events"
 # }
+
 fixtures=['Custom Script','Property Setter','Custom Field']
