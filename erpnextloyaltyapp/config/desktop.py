@@ -7,8 +7,8 @@ def get_data():
 		{
 			"module_name": "Erpnextloyaltyapp",
 			"color": "grey",
-			"icon": "octicon octicon-file-directory",
+			"icon": "octicon octicon-credit-card",
 			"type": "module",
-			"label": _("Erpnextloyaltyapp")
+			"label": _("Loyalty App")
 		}
 	]
