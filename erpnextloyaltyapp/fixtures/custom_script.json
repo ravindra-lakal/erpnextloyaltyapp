@@ -25,5 +25,14 @@
   "name": "Customer-Client", 
   "script": null, 
   "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Item", 
+  "modified": "2016-03-10 12:57:52.407480", 
+  "name": "Item-Client", 
+  "script": "frappe.ui.form.on(\"Item\",\"onload\",function(frm) {\n\ncur_frm.set_value(\"is_stock_item\",\"\")\n\n\n });", 
+  "script_type": "Client"
  }
 ]
