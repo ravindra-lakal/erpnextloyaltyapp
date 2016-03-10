@@ -30,11 +30,12 @@ def points_allocation(doc,method):
 def check_method(doc):
 		l1=[]
 		for raw in doc.get("payment_method"):
-			l1.append(raw.method)
-		if "Points" in l1:
-            		print raw.points
+            if raw.points!=None:
+                return raw.points 
 
-			return int(raw.points)
+		
+
+			
 		else:
 			return 0
 def on_submit(doc,method):
@@ -76,9 +77,7 @@ def on_update(doc,method):
                 #         frappe.throw(_("Please enter correct otp "))
                 cust=frappe.get_doc("Customer",doc.customer_mobile_no)
                 if raw.otp!=cust.otp:
-                    frappe.throw(_("Please enter correct otp ")
-
-
+                    frappe.throw(_("Please enter correct otp "))
 def payment_check(doc):
     total=0
     print ("Grand total is",doc.grand_total)

@@ -10,23 +10,23 @@ def get_data():
 				{
 					"type": "doctype",
 					"name": "Item",
-					"description":_("Send mass SMS to your contacts"),
+					"description":_("Item Database"),
 				},
 				{
 					"type": "doctype",
 					"name": "Store",
-					"description":_("Logs for maintaining sms delivery status"),
+					"description":_("Stores Database"),
 				},
 				{
 					"type": "doctype",
 					"name": "Department",
-					"description": _("Newsletters to contacts, leads."),
+					"description": _("Departments Database."),
 				},
-				# {
-				# 	"type": "doctype",
-				# 	"name": "Season",
-				# 	"description": _("Newsletters to contacts, leads."),
-				# },
+				{
+					"type": "doctype",
+					"name": "Season",
+					"description": _("Seasons Database."),
+				},
 
 			]
 		},
@@ -56,9 +56,13 @@ def get_data():
 				{
 					"type": "doctype",
 					"name": "Rule Engine",
-					"description": _("Default settings for selling transactions.")
+					"description": _("Rules for Points redumption.")
 				},
-				
+				{
+					"type": "doctype",
+					"name": "SMS Settings",
+					"description": _("Settings for the SMS Gateway.")
+				},
 			]
 		},
 		]

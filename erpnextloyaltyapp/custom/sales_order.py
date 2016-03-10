@@ -30,11 +30,12 @@ def points_allocation(doc,method):
 def check_method(doc):
 		l1=[]
 		for raw in doc.get("payment_method"):
-			l1.append(raw.method)
-		if "Points" in l1:
-            		print raw.points
+            		if raw.points!=None:
+                		return raw.points 
 
-			return int(raw.points)
+		
+
+			
 		else:
 			return 0
 def on_submit(doc,method):
