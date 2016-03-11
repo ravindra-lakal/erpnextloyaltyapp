@@ -45,6 +45,8 @@ def on_submit(doc,method):
     n1 = customer.append('points_table', {})
     n1.purchase_date=doc.transaction_date
     n1.points_earned=doc.points_earned
+    n1.remaining_points=doc.points_earned
+    n1.status="Active"
     if check_method(doc)==0:
         n1.points_consumed=0
     else:
