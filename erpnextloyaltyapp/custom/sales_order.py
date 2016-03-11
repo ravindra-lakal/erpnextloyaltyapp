@@ -1,6 +1,7 @@
 import frappe
 from frappe import _
 def points_allocation(doc,method):
+    """  Allocates the points to the user before submission of the document based on the rule engine"""
     points_check(doc)
 
     a=frappe.get_all("Rule Engine", fields=["rule_type","minimum_amount","points ","points_multiplication_factor","converted_rupees"], filters={"status":"Active","docstatus":1})
@@ -28,6 +29,7 @@ def points_allocation(doc,method):
             # rupees=int(i.get('converted_rupees'))
 
 def check_method(doc):
+    """ checks the payment method if finds points then it returns them or returns 0 used while insertng data in points child table"""
 		l1=[]
 		for raw in doc.get("payment_method"):
             		if raw.points!=None:
@@ -39,6 +41,7 @@ def check_method(doc):
 		else:
 			return 0
 def on_submit(doc,method):
+""" the points allocated to the perticular user are inserted into the points child table with total points earned,consumed remaining points and status also sets otp to none after completion of SO"""
     now=0
     customer=frappe.get_doc("Customer",doc.customer_mobile_no)
      #customer.set('Points Details',[])
@@ -47,6 +50,7 @@ def on_submit(doc,method):
     n1.points_earned=doc.points_earned
     n1.remaining_points=doc.points_earned
     n1.status="Active"
+
     if check_method(doc)==0:
         n1.points_consumed=0
     else:
@@ -56,6 +60,7 @@ def on_submit(doc,method):
     customer.save()
 
 def points_check(doc):
+    """ checks if the customer has desired number of points in his account if not throws an exception"""
 		customer=frappe.get_doc("Customer",doc.customer_mobile_no)
 		tpoint=customer.total_points
 		for raw in doc.get("payment_method"):
@@ -66,6 +71,7 @@ def points_check(doc):
 					frappe.throw(_("Customer doesn't have enough points for redumption."))
 
 def on_update(doc,method):
+    """ Checks if the user has entered correct otp and points at the time of redumption"""
     if doc.get("payment_method"):
         for raw in doc.get("payment_method"):
             if raw.method=="Points":
@@ -81,6 +87,7 @@ def on_update(doc,method):
                 if raw.otp!=cust.otp:
                     frappe.throw(_("Please enter correct otp "))
 def payment_check(doc):
+    """ Checks if the payment is complete"""
     total=0
     print ("Grand total is",doc.grand_total)
     for raw in doc.get("payment_method"):
@@ -93,7 +100,7 @@ def payment_check(doc):
 
 
 def redeem_amount(doc):
-    #Returns redeem amount i.e amount payed by COD and CC
+    """Returns redeem amount i.e amount payed by COD and CC"""
     total=0
     for raw in doc.get("payment_method"):
         if raw.method=="COD" or raw.method=="CC":
