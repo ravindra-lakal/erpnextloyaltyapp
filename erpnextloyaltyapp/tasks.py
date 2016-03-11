@@ -24,7 +24,7 @@ def all():
 				# customer.save()
 def hourly():
 
-	""" Expires unused points of the customers s after 720  hours"""
+	""" Expires unused points of the customers s after specified time"""
 	customers=frappe.get_all("Customer",fields=["customer_id"])
 	for customer in customers:
 		customer_id=customer.get("customer_id")

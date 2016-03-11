@@ -25,7 +25,7 @@ def validate(doc,method):
         for raw in doc.get("points_table"):
             # if raw.points_earned:
             if raw.status=="Active" or raw.status=="Partially Consumed":
-                remaining_points += doc.remaining_points 
+                remaining_points += raw.remaining_points 
                 # points_earned+=int(raw.points_earned)
 
 
