@@ -37,7 +37,7 @@ def check_method(doc):
             return raw.points
         else:
             return 0
-	
+
 def on_submit(doc,method):
 # """ the points allocated to the perticular user are inserted into the points child table with total points earned,consumed remaining points and status also sets otp to none after completion of SO"""
     required_points=0
@@ -56,7 +56,7 @@ def on_submit(doc,method):
         new_points=n1.points_consumed=check_method(doc)
         require_points_check(customer,new_points)
     customer.otp=None
-    # print "OTP is",customer.otp 
+    # print "OTP is",customer.otp
     print customer.points_table[0].status
     customer.save()
 
@@ -67,7 +67,7 @@ def points_check(doc):
 		for raw in doc.get("payment_method"):
 			if raw.method=="Points":
 				if int(raw.points) > int(tpoint):
-					
+
 
 					frappe.throw(_("Customer doesn't have enough points for redumption."))
 
@@ -110,16 +110,18 @@ def redeem_amount(doc):
         if raw.method=="Points":
             return 0
 def require_points_check(customer,n):
-    remaining=n 
+    remaining=n
     for raw in customer.get("points_table"):
         if raw.status=="Active" or raw.status=="Partially Consumed":
             if int(remaining)< int(raw.remaining_points):
                 print " n is ",remaining
                 raw.remaining_points=int(raw.remaining_points)-int(remaining)
                 raw.status="Partially Consumed"
+                remaining=0
             if int(remaining)==int(raw.remaining_points):
                 raw.status="Consumed"
                 raw.remaining_points=0
+                remaining=0
             if int(remaining)>int(raw.remaining_points):
                 raw.status="Consumed"
                 print " n is ",remaining
