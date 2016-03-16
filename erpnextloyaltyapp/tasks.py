@@ -31,8 +31,14 @@ def hourly():
 		doc=frappe.get_doc("Customer",customer_id)
 		if doc.get("points_table")!=None:
 			for raw in doc.get("points_table"):
-				startdate=str(raw.purchase_date)
-				enddate=str(datetime.datetime.now())
+				startdate=data.getdate(raw.purchase_date)
+				enddate=data.getdate(datetime.datetime.now())
+				print data.date_diff(enddate,startdate)
+				if data.date_diff(enddate,startdate)==365 or data.date_diff(enddate,startdate)>365:
+					raw.status="Expired"
+					print raw.status
+					doc.save()
+
 				 
 
 
