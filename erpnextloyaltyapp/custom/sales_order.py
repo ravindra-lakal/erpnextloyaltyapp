@@ -131,6 +131,7 @@ def require_points_check(customer,n):
                 raw.remaining_points=0
                 # below code is just included to show the status flags correctly the application runs smoothly without this also
                 if raw.points_earned==0:
-                    raw.status=="None"
+                    raw.status="None"
                 if remaining==0:
                     break
+                
