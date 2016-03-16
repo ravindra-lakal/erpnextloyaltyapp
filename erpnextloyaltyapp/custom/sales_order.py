@@ -57,7 +57,7 @@ def on_submit(doc,method):
         require_points_check(customer,new_points)
     customer.otp=None
     # print "OTP is",customer.otp
-    print customer.points_table[0].status
+    # print customer.points_table[0].status
     customer.save()
 
 def points_check(doc):
@@ -114,7 +114,7 @@ def require_points_check(customer,n):
     for raw in customer.get("points_table"):
         if raw.status=="Active" or raw.status=="Partially Consumed":
             if int(remaining)< int(raw.remaining_points):
-                print " n is ",remaining
+                # print " n is ",remaining
                 raw.remaining_points=int(raw.remaining_points)-int(remaining)
                 raw.status="Partially Consumed"
                 remaining=0
@@ -124,8 +124,13 @@ def require_points_check(customer,n):
                 remaining=0
             if int(remaining)>int(raw.remaining_points):
                 raw.status="Consumed"
-                print " n is ",remaining
-                print "status is",raw.status
+                # print " n is ",remaining
+                # print "status is",raw.status
                 remaining=int(remaining)-int(raw.remaining_points)
-                print " n is ",remaining
+                # print " n is ",remaining
                 raw.remaining_points=0
+                # below code is just included to show the status flags correctly the application runs smoothly without this also
+                if raw.points_earned==0:
+                    raw.status=="None"
+                if remaining==0:
+                    break

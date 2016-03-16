@@ -61,5 +61,5 @@ def otp(number,customer):
 def points(customer):
 	cust=frappe.get_doc("Customer",customer)
 	total=cust.total_points
-	print "Total is",total
+	# print "Total is",total
 	return total
