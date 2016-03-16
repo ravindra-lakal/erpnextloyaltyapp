@@ -97,9 +97,9 @@ scheduler_events = {
 # 	"daily": [
 # 		"erpnextloyaltyapp.tasks.daily"
 # 	],
-# 	"hourly": [
-# 		"erpnextloyaltyapp.tasks.hourly"
-# 	],
+	"hourly": [
+		"erpnextloyaltyapp.tasks.hourly"
+	],
 # 	"weekly": [
 # 		"erpnextloyaltyapp.tasks.weekly"
 # 	]

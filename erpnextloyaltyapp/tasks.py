@@ -3,6 +3,7 @@ import datetime
 from frappe.utils import data
 
 def all():
+	""" Expires unused otp s after 24 hours"""
 	# customers=frappe.get_all("Customer",fields=["mobile_no","otp","date"],filters={"otp": ["!=", 'null']})
 	# customers=frappe.get_all("Customer",fields=["mobile_no","otp","date"])
 	customers=frappe.get_all("Customer",fields=["otp","mobile_no","date","customer_id"])
@@ -21,5 +22,20 @@ def all():
 				frappe.db.set_value("Customer",customerid,"otp",None)
 				# customer.otp=None
 				# customer.save()
+def hourly():
 
+	""" Expires unused points of the customers s after specified time"""
+	customers=frappe.get_all("Customer",fields=["customer_id"])
+	for customer in customers:
+		customer_id=customer.get("customer_id")
+		doc=frappe.get_doc("Customer",customer_id)
+		if doc.get("points_table")!=None:
+			for raw in doc.get("points_table"):
+				startdate=str(raw.purchase_date)
+				enddate=str(datetime.datetime.now())
+				 
+
+
+
+	
 

@@ -56,10 +56,10 @@ def otp(number,customer):
 
     # docname.save()
     return code
-      
+
 @frappe.whitelist()
 def points(customer):
 	cust=frappe.get_doc("Customer",customer)
 	total=cust.total_points
-	print "Total is",total
+	# print "Total is",total
 	return total
