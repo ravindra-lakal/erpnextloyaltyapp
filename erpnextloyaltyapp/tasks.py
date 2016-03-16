@@ -18,7 +18,7 @@ def all():
 			# print "%s ======== %s" %(date,enddate)
 			diff=data.time_diff_in_hours(enddate,startdate)
 			# print diff==0.0005 or diff>0.0005
-			if diff==24 or diff>24:
+			if diff==0.5 or diff>0.5:
 				frappe.db.set_value("Customer",customerid,"otp",None)
 				# customer.otp=None
 				# customer.save()
@@ -34,10 +34,24 @@ def hourly():
 				startdate=data.getdate(raw.purchase_date)
 				enddate=data.getdate(datetime.datetime.now())
 				print data.date_diff(enddate,startdate)
-				if data.date_diff(enddate,startdate)==365 or data.date_diff(enddate,startdate)>365:
-					raw.status="Expired"
-					print raw.status
-					doc.save()
+				rule_engine=frappe.get_all("Rule Engine",fields=['rule_type','points_expiry_duration'], filters={"status":"Active","docstatus":1})
+				for rule in rule_engine:
+					if rule.get('points_expiry_duration')=="1 Year":
+					    if data.date_diff(enddate,startdate)==365 or data.date_diff(enddate,startdate)>365:
+							raw.status="Expired"
+							print raw.status
+							doc.save()
+					if rule.get('points_expiry_duration')=="3 Months":
+						if data.date_diff(enddate,startdate)==90 or data.date_diff(enddate,startdate)>90:
+							raw.status="Expired"
+							print raw.status
+							doc.save()
+					if rule.get('points_expiry_duration')=="6 Months":
+						if data.date_diff(enddate,startdate)==180 or data.date_diff(enddate,startdate)>180:
+							raw.status="Expired"
+							print raw.status
+							doc.save()
+
 
 				 
 
