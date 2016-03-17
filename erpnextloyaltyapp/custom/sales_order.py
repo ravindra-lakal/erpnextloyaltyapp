@@ -33,11 +33,13 @@ def check_method(doc):
 
     # """ checks the payment method if finds points then it returns them or returns 0 used while insertng data in points child table"""
     l1=[]
+    point=0
     for raw in doc.get("payment_method"):
+        
         if raw.points!=None:
-            return raw.points
-        else:
-            return 0
+            point= raw.points
+       
+    return point 
 
 def on_submit(doc,method):
 # """ the points allocated to the perticular user are inserted into the points child table with total points earned,consumed remaining points and status also sets otp to none after completion of SO"""
