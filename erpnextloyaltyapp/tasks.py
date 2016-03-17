@@ -51,11 +51,3 @@ def hourly():
 							raw.status="Expired"
 							print raw.status
 							doc.save()
-
-
-				 
-
-
-
-	
-

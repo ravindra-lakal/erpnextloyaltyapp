@@ -17,16 +17,7 @@ def get_data():
 					"name": "Store",
 					"description":_("Stores Database"),
 				},
-				{
-					"type": "doctype",
-					"name": "Department",
-					"description": _("Departments Database."),
-				},
-				{
-					"type": "doctype",
-					"name": "Season",
-					"description": _("Seasons Database."),
-				},
+				
 
 			]
 		},

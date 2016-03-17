@@ -15,6 +15,7 @@ def points_allocation(doc,method):
             # wrong amount calculation
             # amount=int(doc.total)
             amount=redeem_amount(doc)
+            # print "Amount is", amount
             points=int((amount*pointsawarded))/int(minamount)
             a=factor*points
             doc.points_earned=a
@@ -32,11 +33,13 @@ def check_method(doc):
 
     # """ checks the payment method if finds points then it returns them or returns 0 used while insertng data in points child table"""
     l1=[]
+    point=0
     for raw in doc.get("payment_method"):
+        
         if raw.points!=None:
-            return raw.points
-        else:
-            return 0
+            point= raw.points
+       
+    return point 
 
 def on_submit(doc,method):
 # """ the points allocated to the perticular user are inserted into the points child table with total points earned,consumed remaining points and status also sets otp to none after completion of SO"""
@@ -76,6 +79,8 @@ def on_update(doc,method):
     if doc.get("payment_method"):
         for raw in doc.get("payment_method"):
             if raw.method=="Points":
+                raw.amount=None
+                
                 if raw.otp==None and raw.points==None:
                     frappe.throw(_("You have not entered otp and points "))
                 if raw.otp==None:
@@ -106,9 +111,11 @@ def redeem_amount(doc):
     for raw in doc.get("payment_method"):
         if raw.method=="COD" or raw.method=="CC":
             total+=float(raw.amount)
-        return total
-        if raw.method=="Points":
-            return 0
+        else: 
+            total=total+0
+    return total
+        # if raw.method=="Points":
+        #     return 0
 def require_points_check(customer,n):
     remaining=n
     for raw in customer.get("points_table"):
@@ -134,4 +141,3 @@ def require_points_check(customer,n):
                     raw.status="None"
                 if remaining==0:
                     break
-                
