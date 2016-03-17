@@ -15,6 +15,7 @@ def points_allocation(doc,method):
             # wrong amount calculation
             # amount=int(doc.total)
             amount=redeem_amount(doc)
+            # print "Amount is", amount
             points=int((amount*pointsawarded))/int(minamount)
             a=factor*points
             doc.points_earned=a
@@ -76,6 +77,8 @@ def on_update(doc,method):
     if doc.get("payment_method"):
         for raw in doc.get("payment_method"):
             if raw.method=="Points":
+                raw.amount=None
+                
                 if raw.otp==None and raw.points==None:
                     frappe.throw(_("You have not entered otp and points "))
                 if raw.otp==None:
@@ -106,9 +109,11 @@ def redeem_amount(doc):
     for raw in doc.get("payment_method"):
         if raw.method=="COD" or raw.method=="CC":
             total+=float(raw.amount)
-        return total
-        if raw.method=="Points":
-            return 0
+        else: 
+            total=total+0
+    return total
+        # if raw.method=="Points":
+        #     return 0
 def require_points_check(customer,n):
     remaining=n
     for raw in customer.get("points_table"):
@@ -134,4 +139,3 @@ def require_points_check(customer,n):
                     raw.status="None"
                 if remaining==0:
                     break
-                
