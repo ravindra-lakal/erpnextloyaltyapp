@@ -121,6 +121,9 @@ def require_points_check(customer,n):
     for raw in customer.get("points_table"):
         if raw.status=="Active" or raw.status=="Partially Consumed":
             if int(remaining)< int(raw.remaining_points):
+                if remaining==0:
+                    break
+
                 # print " n is ",remaining
                 raw.remaining_points=int(raw.remaining_points)-int(remaining)
                 raw.status="Partially Consumed"
@@ -139,5 +142,5 @@ def require_points_check(customer,n):
                 # below code is just included to show the status flags correctly the application runs smoothly without this also
                 if raw.points_earned==0:
                     raw.status="None"
-                if remaining==0:
-                    break
+                # if remaining==0:
+                    # break
