@@ -76,6 +76,8 @@ def points_check(doc):
 
 def on_update(doc,method):
     # """ Checks if the user has entered correct otp and points at the time of redumption"""
+    if doc.type=="Return" and doc.return_date==None:
+        frappe.throw ("Please enter Return date")
     if doc.get("payment_method"):
         for raw in doc.get("payment_method"):
             if raw.method=="Points":
@@ -121,6 +123,9 @@ def require_points_check(customer,n):
     for raw in customer.get("points_table"):
         if raw.status=="Active" or raw.status=="Partially Consumed":
             if int(remaining)< int(raw.remaining_points):
+                if remaining==0:
+                    break
+
                 # print " n is ",remaining
                 raw.remaining_points=int(raw.remaining_points)-int(remaining)
                 raw.status="Partially Consumed"
@@ -139,5 +144,10 @@ def require_points_check(customer,n):
                 # below code is just included to show the status flags correctly the application runs smoothly without this also
                 if raw.points_earned==0:
                     raw.status="None"
-                if remaining==0:
-                    break
+                # if remaining==0:
+                    # break
+def on_update_after_submit(doc,method):
+    print "On update after submit"
+    if doc.type=="Return" and doc.return_date==None:
+        frappe.throw ("Please enter Return date")
+
