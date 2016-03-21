@@ -76,6 +76,8 @@ def points_check(doc):
 
 def on_update(doc,method):
     # """ Checks if the user has entered correct otp and points at the time of redumption"""
+    if doc.type=="Return" and doc.return_date==None:
+        frappe.throw ("Please enter Return date")
     if doc.get("payment_method"):
         for raw in doc.get("payment_method"):
             if raw.method=="Points":
@@ -144,3 +146,8 @@ def require_points_check(customer,n):
                     raw.status="None"
                 # if remaining==0:
                     # break
+def on_update_after_submit(doc,method):
+    print "On update after submit"
+    if doc.type=="Return" and doc.return_date==None:
+        frappe.throw ("Please enter Return date")
+
