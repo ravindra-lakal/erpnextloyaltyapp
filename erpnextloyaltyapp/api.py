@@ -39,7 +39,7 @@ def customer_query(doctype, txt, searchfield, start, page_len, filters):
 		},debug=True)
 
 @frappe.whitelist()
-def otp(number,customer):
+def otp(customer):
     size=6
     chars=string.ascii_uppercase + string.digits + string.ascii_lowercase
     code=''.join(random.choice(chars) for _ in range(size))
@@ -47,6 +47,8 @@ def otp(number,customer):
     # docname.save()
     # frappe.db.set_value("Sales Order",docname,"otp",code)
     text="Your otp is %s"%code
+    cust=frappe.get_doc("Customer",customer)
+    number= mobile_no=frappe.db.get_value("Customer",{"mobile_no":cust.mobile_no},"mobile_no")
     a=[]
     a.append(number)
     send_sms(a,text)
@@ -63,3 +65,10 @@ def points(customer):
 	total=cust.total_points
 	# print "Total is",total
 	return total
+# # for making api call only
+# @frappe.whitelist()
+# def so_return(so,return_date):
+# 	sales_order=frappe.get_doc("Sales Order",so)
+# 	sales_order.type="Return"
+# 	sales_order.return_date=return_date
+# 	sales_order.submit()
