@@ -8,7 +8,7 @@ import random
 from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
 import datetime
 
-frappe.whitelist()
+# frappe.whitelist()
 def customer_query(doctype, txt, searchfield, start, page_len, filters):
 	cust_master_name = frappe.defaults.get_user_default("cust_master_name")
 
@@ -38,7 +38,7 @@ def customer_query(doctype, txt, searchfield, start, page_len, filters):
 			'page_len': page_len
 		},debug=True)
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def otp(customer):
     size=6
     chars=string.ascii_uppercase + string.digits + string.ascii_lowercase
@@ -59,7 +59,7 @@ def otp(customer):
     # docname.save()
     return code
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def points(customer):
 	cust=frappe.get_doc("Customer",customer)
 	total=cust.total_points
@@ -72,3 +72,17 @@ def points(customer):
 # 	sales_order.type="Return"
 # 	sales_order.return_date=return_date
 # 	sales_order.submit()
+@frappe.whitelist(allow_guest=True)
+def add_customer(name,mobile_no,email_id):
+
+	cust=frappe.new_doc("Customer")
+	cust.customer_name=name
+
+
+	# cust.email_id=email_id
+	# if (name=None or customer_name=None or email_id=None):
+	# 	frappe.throw(_("Mandetory field name mobile no. or email is missing"))
+	# cust.insert()
+	cust.insert(ignore_permissions=True)
+
+
