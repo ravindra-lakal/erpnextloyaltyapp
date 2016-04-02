@@ -77,12 +77,16 @@ def add_customer(name,mobile_no,email_id):
 
 	cust=frappe.new_doc("Customer")
 	cust.customer_name=name
+	cust.mobile_no=mobile_no
+	cust.email_id=email_id
+	cust.flags.ignore_permissions=1
 
 
 	# cust.email_id=email_id
 	# if (name=None or customer_name=None or email_id=None):
 	# 	frappe.throw(_("Mandetory field name mobile no. or email is missing"))
 	# cust.insert()
-	cust.insert(ignore_permissions=True)
+	# cust.insert(ignore_permissions=True)
+	cust.save()
 
 
