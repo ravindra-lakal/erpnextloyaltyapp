@@ -77,18 +77,20 @@ def points(customer):
 #For API only
 @frappe.whitelist(allow_guest=True)
 def add_customer(name,mobile_no,email_id,age,dob,gendor,edc_no,gc_no,payback_card_no,income,):
-	cust=frappe.new_doc("Customer")
-	cust.customer_name=name
-	cust.mobile_no=mobile_no
-	cust.email_id=email_id
-	cust.flags.ignore_permissions=1
-	cust.save()
+		# cust=frappe.new_doc("Customer")
+		# cust.customer_name=name
+		# cust.mobile_no=mobile_no
+		# cust.email_id=email_id
+		# cust.flags.ignore_permissions=1
+		# cust.save()
+	data1 = "hello"
+	return name
 	#if (name=None or customer_name=None or email_id=None):
 	#frappe.throw(_("Mandetory field name mobile no. or email is missing"))
 
 #For API Only
-@frappe.whitelist(allow_guest=True)
-def make_sales_order(so_details):
+# @frappe.whitelist(allow_guest=True)
+# def make_sales_order(so_details):
 	#return so_details
 	# so=frappe.new_doc("Sales Order")
 	# so_details=json.loads(so_details)
@@ -112,7 +114,7 @@ def make_sales_order(so_details):
 	# 	so.flags.ignore_permissions=1
 	# 	so.docstatus=so_details.get('docstatus')
 		# so.save()
-		pass
+		# pass
 
 @frappe.whitelist(allow_guest=True)
 def make_sales_return(so,return_date):
@@ -122,6 +124,35 @@ def make_sales_return(so,return_date):
 	sales_order.flags.ignore_permissions=1
 	sales_order.submit()
 
+@frappe.whitelist(allow_guest=True)
+def make_sales_order(customer_mobile_no,transaction_date,delivery_date,items,payment_method):
+	so=frappe.new_doc("Sales Order")
+	cust=frappe.get_doc("Customer",customer_mobile_no)
+	so.customer_mobile_no=customer_mobile_no
+	so.transaction_date=transaction_date
+	so.delivery_date=delivery_date
+	items=json.loads(items)
+	it=so.append('items',{})
+	for item in items:
+		it.item_code=item.get('item_code')
+		it.qty=item.get('qty')
+		it.item_name=item.get('item_name')
+	method=so.append('payment_method',{})
+	payment_method=json.loads(payment_method)
+	for meth in payment_method:
+		method.method=meth.get('method')
+		method.amount=meth.get('amount')
+		method.points=meth.get('points')
+		method.card_no=meth.get('card_no')
+		method.otp=meth.get('otp')
+	cust.flags.ignore_permissions=1
+	so.flags.ignore_permissions=1
+	cust.save()
+	so.submit()
+
+
+	
+	
 
 
 
