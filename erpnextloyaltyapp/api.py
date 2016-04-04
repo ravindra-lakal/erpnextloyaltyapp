@@ -90,28 +90,38 @@ def add_customer(name,mobile_no,email_id,age,dob,gendor,edc_no,gc_no,payback_car
 @frappe.whitelist(allow_guest=True)
 def make_sales_order(so_details):
 	#return so_details
-	so=frappe.new_doc("Sales Order")
-	so_details=json.loads(so_details)
-	so.customer_mobile_no=so_details.get("customer_mobile_no")
-	so.transaction_date=so_details.get("transaction_date")
-	so.delivery_date=so_details.get("delivery_date")
-	itm=so.append('items',{})
-	for item in so_details.get('items'):
-		itm.qty=item.get('qty')
-		itm.item_name=item.get('item_name')
-		itm.amount=item.get('amount')
-		itm.net_rate=item.get('net_rate')
-		itm.stock_uom=item.get('stock_uom')
-		itm.item_code=item.get('item_code')
-	meth=so.append('payment_method',{})
-	for pm in so_details.get('payment_method'):
-		meth.method=pm.get('method')
-		meth.amount=pm.get('amount')
-		meth.card_no=pm.get('card_no')
-		meth.otp=pm.get('otp')
-		so.flags.ignore_permissions=1
-		so.docstatus=so_details.get('docstatus')
-		so.save()
+	# so=frappe.new_doc("Sales Order")
+	# so_details=json.loads(so_details)
+	# so.customer_mobile_no=so_details.get("customer_mobile_no")
+	# so.transaction_date=so_details.get("transaction_date")
+	# so.delivery_date=so_details.get("delivery_date")
+	# itm=so.append('items',{})
+	# for item in so_details.get('items'):
+	# 	itm.qty=item.get('qty')
+	# 	itm.item_name=item.get('item_name')
+	# 	itm.amount=item.get('amount')
+	# 	itm.net_rate=item.get('net_rate')
+	# 	itm.stock_uom=item.get('stock_uom')
+	# 	itm.item_code=item.get('item_code')
+	# meth=so.append('payment_method',{})
+	# for pm in so_details.get('payment_method'):
+	# 	meth.method=pm.get('method')
+	# 	meth.amount=pm.get('amount')
+	# 	meth.card_no=pm.get('card_no')
+	# 	meth.otp=pm.get('otp')
+	# 	so.flags.ignore_permissions=1
+	# 	so.docstatus=so_details.get('docstatus')
+		# so.save()
+		pass
+
+@frappe.whitelist(allow_guest=True)
+def make_sales_return(so,return_date):
+	sales_order=frappe.get_doc('Sales Order',so)
+	sales_order.return_date=return_date
+	sales_order.type="Return"
+	sales_order.flags.ignore_permissions=1
+	sales_order.submit()
+
 
 
 
