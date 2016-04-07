@@ -83,6 +83,7 @@ doc_events = {
 		"on_submit":"erpnextloyaltyapp.custom.sales_order.on_submit",
 		"on_update":"erpnextloyaltyapp.custom.sales_order.on_update" ,
 		"on_update_after_submit":"erpnextloyaltyapp.custom.sales_order.on_update_after_submit",
+		"validate":"erpnextloyaltyapp.custom.sales_order.validate"
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	}
