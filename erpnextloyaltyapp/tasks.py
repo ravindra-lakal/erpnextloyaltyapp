@@ -18,7 +18,7 @@ def all():
 			# print "%s ======== %s" %(date,enddate)
 			diff=data.time_diff_in_hours(enddate,startdate)
 			# print diff==0.0005 or diff>0.0005
-			if diff==0.5 or diff>0.5:
+			if diff==24 or diff>24:
 				frappe.db.set_value("Customer",customerid,"otp",None)
 				# customer.otp=None
 				# customer.save()
