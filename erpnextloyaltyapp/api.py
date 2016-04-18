@@ -63,6 +63,10 @@ def otp(customer):
 @frappe.whitelist(allow_guest=True)
 def points(customer):
 	cust=frappe.get_doc("Customer",customer)
+	customer={}
+	customer.update{"name":cust.customer_name,
+	"mobile_no":cust.mobile_no,
+	"email_id"}
 	total=cust.total_points
 	# print "Total is",total
 	return total
