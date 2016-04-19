@@ -17,7 +17,41 @@ def get_data():
 					"name": "Store",
 					"description":_("Stores Database"),
 				},
-				
+				{
+					"type": "doctype",
+					"name": "Catagory",
+					"description": _("Catagory database."),
+				},
+				{
+					"type": "doctype",
+					"name": "Department",
+					"description":_("Stores Database"),
+				},
+				{
+					"type": "doctype",
+					"name": "Color",
+					"description":_("Color Database"),
+				},
+				{
+					"type": "doctype",
+					"name": "Sub Family",
+					"description":_("Stores Database"),
+				},
+				{
+					"type": "doctype",
+					"name": "Family",
+					"description":_("Stores Database"),
+				},
+				{
+					"type": "doctype",
+					"name": "Style",
+					"description":_("Stores Database"),
+				},
+				{
+					"type": "doctype",
+					"name": "Season",
+					"description":_("Stores Database"),
+				},
 
 			]
 		},
@@ -57,3 +91,6 @@ def get_data():
 			]
 		},
 		]
+
+
+		

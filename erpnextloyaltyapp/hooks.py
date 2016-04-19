@@ -73,7 +73,9 @@ app_license = "MIT"
 doc_events = {
 	"Customer": {
         "autoname":"erpnextloyaltyapp.custom.customer.autoname",
-		"validate":"erpnextloyaltyapp.custom.customer.validate"
+		"validate":"erpnextloyaltyapp.custom.customer.validate",
+		"before_insert":"erpnextloyaltyapp.custom.customer.before_insert"
+
 		# "on_update": "method",
 		# "on_cancel": "method",
 		# "on_trash": "method"
@@ -83,6 +85,7 @@ doc_events = {
 		"on_submit":"erpnextloyaltyapp.custom.sales_order.on_submit",
 		"on_update":"erpnextloyaltyapp.custom.sales_order.on_update" ,
 		"on_update_after_submit":"erpnextloyaltyapp.custom.sales_order.on_update_after_submit",
+		"validate":"erpnextloyaltyapp.custom.sales_order.validate"
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	}

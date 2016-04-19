@@ -1,5 +1,13 @@
 import frappe
 from frappe import _
+
+def validate(doc,method):
+    doc.cashier=frappe.session.user
+    user=frappe.get_doc("User",doc.cashier)
+    doc.store=user.store
+
+
+
 def points_allocation(doc,method):
     """  Allocates the points to the user before submission of the document based on the rule engine"""
     points_check(doc)
@@ -59,9 +67,7 @@ def on_submit(doc,method):
         new_points=n1.points_consumed=check_method(doc)
         require_points_check(customer,new_points)
     customer.otp=None
-    # print "OTP is",customer.otp
-    # print customer.points_table[0].status
-    customer.save()
+    customer.save(ignore_permissions=True)
 
 def points_check(doc):
     # """ checks if the customer has desired number of points in his account if not throws an exception"""
@@ -82,18 +88,21 @@ def on_update(doc,method):
         for raw in doc.get("payment_method"):
             if raw.method=="Points":
                 raw.amount=None
-                
-                if raw.otp==None and raw.points==None:
-                    frappe.throw(_("You have not entered otp and points "))
-                if raw.otp==None:
-                    frappe.throw(_("You have not entered otp"))
-                if raw.points==None:
-                    frappe.throw(_("You have not entered points "))
-                # if raw.otp!=doc.otp:
-                #         frappe.throw(_("Please enter correct otp "))
-                cust=frappe.get_doc("Customer",doc.customer_mobile_no)
-                if raw.otp!=cust.otp:
-                    frappe.throw(_("Please enter correct otp "))
+
+                if doc.type=="Sales":
+                    if raw.otp==None and raw.points==None:
+                        frappe.throw(_("You have not entered otp and points "))
+                    if raw.otp==None:
+                        frappe.throw(_("You have not entered otp"))
+                    if raw.points==None:
+                        frappe.throw(_("You have not entered points "))
+                    # if raw.otp!=doc.otp:
+                    #         frappe.throw(_("Please enter correct otp "))
+                    cust=frappe.get_doc("Customer",doc.customer_mobile_no)
+                    if raw.otp!=cust.otp:
+                        frappe.throw(_("Please enter correct otp "))
+                    if doc.type=="Return":
+                        doc.save()
 def payment_check(doc):
     # """ Checks if the payment is complete"""
     total=0
@@ -147,6 +156,8 @@ def require_points_check(customer,n):
                 # if remaining==0:
                     # break
 def on_update_after_submit(doc,method):
+    # doc.save()
+    print doc.type
     print "On update after submit"
     if doc.type=="Return" and doc.return_date==None:
         frappe.throw ("Please enter Return date")
