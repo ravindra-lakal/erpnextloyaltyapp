@@ -40,7 +40,7 @@ def customer_query(doctype, txt, searchfield, start, page_len, filters):
 		},debug=True)
 
 @frappe.whitelist(allow_guest=True)
-def otp(customer):
+def otp(customerid):
     size=6
     chars=string.ascii_uppercase + string.digits + string.ascii_lowercase
     code=''.join(random.choice(chars) for _ in range(size))
@@ -48,28 +48,38 @@ def otp(customer):
     # docname.save()
     # frappe.db.set_value("Sales Order",docname,"otp",code)
     text="Your otp is %s"%code
-    cust=frappe.get_doc("Customer",customer)
+    cust=frappe.get_doc("Customer",customerid)
     number= mobile_no=frappe.db.get_value("Customer",{"mobile_no":cust.mobile_no},"mobile_no")
     a=[]
     a.append(number)
     send_sms(a,text)
     # docname=frappe.get_doc("Customer",customer)
-    frappe.db.set_value("Customer",customer,"otp",code)
-    frappe.db.set_value("Customer",customer,"date",datetime.datetime.now())
+    frappe.db.set_value("Customer",customerid,"otp",code)
+    frappe.db.set_value("Customer",customerid,"date",datetime.datetime.now())
 
     # docname.save()
     return code
 
 @frappe.whitelist(allow_guest=True)
-def points(customer):
-	cust=frappe.get_doc("Customer",customer)
-	customer={}
-	customer.update{"name":cust.customer_name,
+def profile_fetch(customerid):
+	cust=frappe.get_doc("Customer",customerid)
+	customer_details={}
+	customer_details.update({"name":cust.customer_name,
 	"mobile_no":cust.mobile_no,
-	"email_id"}
-	total=cust.total_points
+	"email_id":cust.email_id,
+	"age":cust.age,
+	"dob":cust.dob,
+	"gendor":cust.gendor,
+	"edc_no":cust.edc_no,
+	"gv_no":cust.gv_no,
+	"payback_card_no":cust.payback_card_no,
+	"income":cust.income,
+	"points":cust.total_points
+	})
+	
+	
 	# print "Total is",total
-	return total
+	return customer_details
 # # for making api call only
 # @frappe.whitelist()
 # def so_return(so,return_date):
@@ -81,16 +91,14 @@ def points(customer):
 #For API only
 @frappe.whitelist(allow_guest=True)
 def add_customer(name,mobile_no,email_id,age,dob,gendor,edc_no,gc_no,payback_card_no,income,):
-		# cust=frappe.new_doc("Customer")
-		# cust.customer_name=name
-		# cust.mobile_no=mobile_no
-		# cust.email_id=email_id
-		# cust.flags.ignore_permissions=1
-		# cust.save()
-	data1 = "hello"
-	return name
-	#if (name=None or customer_name=None or email_id=None):
-	#frappe.throw(_("Mandetory field name mobile no. or email is missing"))
+		cust=frappe.new_doc("Customer")
+		cust.customer_name=name
+		cust.mobile_no=mobile_no
+		cust.email_id=email_id
+		cust.flags.ignore_permissions=1
+		cust.save()
+		if (name==None or customer_name==None or email_id==None):
+			frappe.throw(_("Mandetory field name mobile no. or email is missing"))
 
 #For API Only
 # @frappe.whitelist(allow_guest=True)
