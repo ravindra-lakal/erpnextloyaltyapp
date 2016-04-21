@@ -68,6 +68,7 @@ def on_submit(doc,method):
         require_points_check(customer,new_points)
     customer.otp=None
     customer.save(ignore_permissions=True)
+    doc.flags.ignore_permissions=1
 
 def points_check(doc):
     # """ checks if the customer has desired number of points in his account if not throws an exception"""

@@ -62,24 +62,25 @@ def otp(customerid):
 
 @frappe.whitelist(allow_guest=True)
 def profile_fetch(customerid):
-	cust=frappe.get_doc("Customer",customerid)
-	customer_details={}
-	customer_details.update({"name":cust.customer_name,
-	"mobile_no":cust.mobile_no,
-	"email_id":cust.email_id,
-	"age":cust.age,
-	"dob":cust.dob,
-	"gendor":cust.gendor,
-	"edc_no":cust.edc_no,
-	"gv_no":cust.gv_no,
-	"payback_card_no":cust.payback_card_no,
-	"income":cust.income,
-	"points":cust.total_points
-	})
-	
-	
-	# print "Total is",total
-	return customer_details
+	try:
+		cust=frappe.get_doc("Customer",customerid)
+		customer_details={}
+		customer_details.update({"name":cust.customer_name,
+		"mobile_no":cust.mobile_no,
+		"email_id":cust.email_id,
+		"age":cust.age,
+		"dob":cust.dob,
+		"gendor":cust.gendor,
+		"edc_no":cust.edc_no,
+		"gv_no":cust.gv_no,
+		"payback_card_no":cust.payback_card_no,
+		"income":cust.income,
+		"points":cust.total_points
+		})
+		return customer_details
+	except Exception, e:
+		return e 
+
 # # for making api call only
 # @frappe.whitelist()
 # def so_return(so,return_date):
@@ -90,7 +91,8 @@ def profile_fetch(customerid):
 
 #For API only
 @frappe.whitelist(allow_guest=True)
-def add_customer(name,mobile_no,email_id,age,dob,gendor,edc_no,gc_no,payback_card_no,income,):
+def add_customer(name,mobile_no,email_id,age=None,dob=None,gendor=None,edc_no=None,gc_no=None,payback_card_no=None,income=None,):
+	
 		cust=frappe.new_doc("Customer")
 		cust.customer_name=name
 		cust.mobile_no=mobile_no
@@ -138,29 +140,44 @@ def make_sales_return(so,return_date):
 
 @frappe.whitelist(allow_guest=True)
 def make_sales_order(customer_mobile_no,transaction_date,delivery_date,items,payment_method):
-	so=frappe.new_doc("Sales Order")
-	cust=frappe.get_doc("Customer",customer_mobile_no)
-	so.customer_mobile_no=customer_mobile_no
-	so.transaction_date=transaction_date
-	so.delivery_date=delivery_date
-	items=json.loads(items)
-	it=so.append('items',{})
-	for item in items:
-		it.item_code=item.get('item_code')
-		it.qty=item.get('qty')
-		it.item_name=item.get('item_name')
-	method=so.append('payment_method',{})
-	payment_method=json.loads(payment_method)
-	for meth in payment_method:
-		method.method=meth.get('method')
-		method.amount=meth.get('amount')
-		method.points=meth.get('points')
-		method.card_no=meth.get('card_no')
-		method.otp=meth.get('otp')
-	cust.flags.ignore_permissions=1
-	so.flags.ignore_permissions=1
-	cust.save()
-	so.submit()
+	try:
+		
+		so=frappe.new_doc("Sales Order")
+		cust=frappe.get_doc("Customer",customer_mobile_no)
+		so.customer_mobile_no=customer_mobile_no
+		so.transaction_date=transaction_date
+		so.delivery_date=delivery_date
+		items=json.loads(items)
+		it=so.append('items',{})
+		for item in items:
+			it.item_code=item.get('item_code')
+			it.qty=item.get('qty')
+			it.item_name=item.get('item_name')
+		method=so.append('payment_method',{})
+		payment_method=json.loads(payment_method)
+		for meth in payment_method:
+			method.method=meth.get('method')
+			method.amount=meth.get('amount')
+			method.points=meth.get('points')
+			method.card_no=meth.get('card_no')
+			method.otp=meth.get('otp')
+		cust.flags.ignore_permissions=1
+		# so.flags.ignore_permissions=1
+
+		cust.save()
+		# so.flags.ignore_permissions=True
+		so.flags.ignore_permissions=1
+		so.save()
+		so.submit()
+		frappe.db.commit()
+	except Exception:
+		pass
+		# sys.exc_clear()
+    
+
+
+
+	# so.save(ignore_permissions=1)
 
 
 	
